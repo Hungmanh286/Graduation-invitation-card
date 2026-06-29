@@ -24,16 +24,15 @@ export default function App() {
 
     window.addEventListener('popstate', handleRouteChange);
 
-    if (window.location.pathname !== '/home') {
-      window.history.replaceState(null, '', `/home${window.location.search}`);
+    if (!['/', '/details'].includes(window.location.pathname)) {
+      window.history.replaceState(null, '', `/${window.location.search}`);
       handleRouteChange();
     }
 
     return () => window.removeEventListener('popstate', handleRouteChange);
   }, []);
 
-  const guestParam = new URLSearchParams(location.search).get('guest') || '';
-  const isDetailsPage = location.pathname === '/home' && guestParam.endsWith('/details');
+  const isDetailsPage = location.pathname === '/details';
 
   return (
     <div className="min-h-screen bg-[#ECE9E2] text-slate-800 flex flex-col relative justify-center">

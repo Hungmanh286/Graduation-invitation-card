@@ -6,9 +6,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  Mail, Calendar, MapPin, Clock, Award, Star, BookOpen, Send,
-  Copy, Check, Sparkles, Heart, Share2, Camera,
-  Users, MessageSquare, PenTool, Navigation, CheckSquare
+  Mail, Calendar, MapPin, Clock, Star, BookOpen, Send,
+  Copy, Check, Sparkles, Heart, Share2,
+  PenTool, Navigation, CheckSquare
 } from 'lucide-react';
 
 interface Wish {
@@ -62,16 +62,15 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
   const navigateToDetailsRoute = () => {
     if (typeof window === 'undefined') return;
 
-    const guest = getGuestParam() || DEFAULT_GUEST_NAME;
-    const encodedGuest = encodeURIComponent(guest);
     const preservedParams = new URLSearchParams(window.location.search);
+    const guest = getGuestParam() || DEFAULT_GUEST_NAME;
 
     preservedParams.delete('guest');
     preservedParams.delete('name');
     preservedParams.delete('to');
+    preservedParams.set('guest', guest);
 
-    const extraQuery = preservedParams.toString();
-    window.history.pushState(null, '', `/home?guest=${encodedGuest}/details${extraQuery ? `&${extraQuery}` : ''}`);
+    window.history.pushState(null, '', `/details?${preservedParams.toString()}`);
     window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
@@ -610,114 +609,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
               </div>
             </motion.div>
 
-            {/* Section B: Graduation Ceremony Timeline (Lịch trình lễ tốt nghiệp trang trọng) */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-6 md:p-10 relative border border-[#C5A059]/20 overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 opacity-10 pointer-events-none">
-                <svg className="w-full h-full text-[#C5A059]" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z" />
-                </svg>
-              </div>
-
-              <div className="text-center mb-8">
-                <span className="font-serif text-xs text-[#9A6F12] tracking-[0.22em] uppercase font-black">Chương Trình</span>
-                <h3 className="font-serif text-2xl md:text-[1.7rem] font-black text-[#001A3A] uppercase tracking-wider mt-1 leading-tight">Lịch Trình Buổi Lễ</h3>
-                <div className="w-12 h-[1.5px] bg-[#C5A059] mx-auto mt-2.5"></div>
-              </div>
-
-              {/* Dotted Gold Timeline Tree */}
-              <div className="relative border-l-2 border-dashed border-[#C5A059]/60 ml-4 md:ml-36 space-y-8 py-2">
-
-                {/* Milestone 1 */}
-                <div className="relative pl-6 md:pl-8">
-                  {/* Left-hanging time badge for desktops */}
-                  <div className="hidden md:block absolute right-full mr-8 top-0.5 text-right">
-                    <span className="whitespace-nowrap font-serif text-sm font-black text-[#001A3A] bg-white/90 py-1 px-3 rounded-md border border-[#C5A059]/35 shadow-sm">07:30 - 08:30</span>
-                  </div>
-                  {/* Timeline gold circle marker */}
-                  <div className="absolute left-[-9px] top-1 w-4 h-4 rounded-full bg-[#FCFAF5] border-2 border-[#C5A059] flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></div>
-                  </div>
-                  {/* Mobile time display */}
-                  <div className="md:hidden mb-1">
-                    <span className="whitespace-nowrap text-[13px] font-serif font-black text-[#001A3A] bg-white/90 py-1 px-2.5 rounded-md border border-[#C5A059]/35 shadow-sm">07:30 - 08:30</span>
-                  </div>
-                  {/* Milestone Body */}
-                  <h4 className="font-serif text-[17px] md:text-lg font-black text-[#001A3A] flex items-center gap-2 leading-snug">
-                    <Camera className="w-4.5 h-4.5 text-[#B8891C] shrink-0" /> Đón Tiếp & Chụp Ảnh Lưu Niệm
-                  </h4>
-                  <p className="font-serif text-[13px] md:text-sm font-medium text-[#334155] mt-2 leading-6">
-                    Hân hạnh được đón tiếp, ghi hình lưu giữ kỷ niệm tại khu vực Photo Booth sảnh hội trường cùng gia đình và bạn bè thân thương.
-                  </p>
-                </div>
-
-                {/* Milestone 2 */}
-                <div className="relative pl-6 md:pl-8">
-                  <div className="hidden md:block absolute right-full mr-8 top-0.5 text-right">
-                    <span className="whitespace-nowrap font-serif text-sm font-black text-[#001A3A] bg-white/90 py-1 px-3 rounded-md border border-[#C5A059]/35 shadow-sm">08:30 - 09:00</span>
-                  </div>
-                  <div className="absolute left-[-9px] top-1 w-4 h-4 rounded-full bg-[#FCFAF5] border-2 border-[#C5A059] flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></div>
-                  </div>
-                  <div className="md:hidden mb-1">
-                    <span className="whitespace-nowrap text-[13px] font-serif font-black text-[#001A3A] bg-white/90 py-1 px-2.5 rounded-md border border-[#C5A059]/35 shadow-sm">08:30 - 09:00</span>
-                  </div>
-                  <h4 className="font-serif text-[17px] md:text-lg font-black text-[#001A3A] flex items-center gap-2 leading-snug">
-                    <Users className="w-4.5 h-4.5 text-[#B8891C] shrink-0" /> Ổn Định Chỗ Ngồi
-                  </h4>
-                  <p className="font-serif text-[13px] md:text-sm font-medium text-[#334155] mt-2 leading-6">
-                    Kính mời quý thầy cô, gia đình và bạn bè di chuyển vào trong Hội trường Nguyễn Văn Đạo, ổn định vị trí và chuẩn bị bắt đầu buổi lễ trọng đại.
-                  </p>
-                </div>
-
-                {/* Milestone 3 */}
-                <div className="relative pl-6 md:pl-8">
-                  <div className="hidden md:block absolute right-full mr-8 top-0.5 text-right">
-                    <span className="whitespace-nowrap font-serif text-sm font-black text-[#001A3A] bg-white/90 py-1 px-3 rounded-md border border-[#C5A059]/35 shadow-sm">09:00 - 11:00</span>
-                  </div>
-                  <div className="absolute left-[-9px] top-1 w-4 h-4 rounded-full bg-[#FCFAF5] border-2 border-[#C5A059] flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></div>
-                  </div>
-                  <div className="md:hidden mb-1">
-                    <span className="whitespace-nowrap text-[13px] font-serif font-black text-[#001A3A] bg-white/90 py-1 px-2.5 rounded-md border border-[#C5A059]/35 shadow-sm">09:00 - 11:00</span>
-                  </div>
-                  <h4 className="font-serif text-[17px] md:text-lg font-black text-[#001A3A] flex items-center gap-2 leading-snug">
-                    <Award className="w-5 h-5 text-[#B8891C] shrink-0" /> Nghi Thức Trao Bằng Tốt Nghiệp
-                  </h4>
-                  <p className="font-serif text-[13px] md:text-sm font-medium text-[#334155] mt-2 leading-6">
-                    Nghi lễ chào cờ trang nghiêm, phát biểu tuyên dương từ Ban giám hiệu nhà trường, và giây phút vinh danh nhận bằng tốt nghiệp danh giá trên bục giảng đường.
-                  </p>
-                </div>
-
-                {/* Milestone 4 */}
-                <div className="relative pl-6 md:pl-8">
-                  <div className="hidden md:block absolute right-full mr-8 top-0.5 text-right">
-                    <span className="whitespace-nowrap font-serif text-sm font-black text-[#001A3A] bg-white/90 py-1 px-3 rounded-md border border-[#C5A059]/35 shadow-sm">11:00 - 11:45</span>
-                  </div>
-                  <div className="absolute left-[-9px] top-1 w-4 h-4 rounded-full bg-[#FCFAF5] border-2 border-[#C5A059] flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#C5A059]"></div>
-                  </div>
-                  <div className="md:hidden mb-1">
-                    <span className="whitespace-nowrap text-[13px] font-serif font-black text-[#001A3A] bg-white/90 py-1 px-2.5 rounded-md border border-[#C5A059]/35 shadow-sm">11:00 - 11:45</span>
-                  </div>
-                  <h4 className="font-serif text-[17px] md:text-lg font-black text-[#001A3A] flex items-center gap-2 leading-snug">
-                    <MessageSquare className="w-4.5 h-4.5 text-[#B8891C] shrink-0" /> Phát Biểu Tri Ân & Chụp Hình Tập Thể
-                  </h4>
-                  <p className="font-serif text-[13px] md:text-sm font-medium text-[#334155] mt-2 leading-6">
-                    Lắng nghe đại diện tân khoa phát biểu bày tỏ lòng tri ân tới quý Thầy cô, gia đình và thực hiện nghi thức tung mũ tập thể đầy hào hùng.
-                  </p>
-                </div>
-
-
-              </div>
-            </motion.div>
-
-            {/* Section C: Interactive Digital Guest Book (Sổ lưu bút lời chúc số) */}
+            {/* Section B: Interactive Digital Guest Book (Sổ lưu bút lời chúc số) */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
