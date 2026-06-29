@@ -9,30 +9,19 @@ import InvitationCard from './components/InvitationCard';
 import MusicPlayer from './components/MusicPlayer';
 
 export default function App() {
-  const [location, setLocation] = useState(() => ({
-    pathname: window.location.pathname,
-    search: window.location.search,
-  }));
+  const [isCardOpened, setIsCardOpened] = useState(false);
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      setLocation({
-        pathname: window.location.pathname,
-        search: window.location.search,
-      });
-    };
+    const handleCardOpened = () => setIsCardOpened(true);
 
-    window.addEventListener('popstate', handleRouteChange);
+    window.addEventListener('graduation-card-opened', handleCardOpened);
 
-    if (!['/', '/details'].includes(window.location.pathname)) {
+    if (window.location.pathname !== '/') {
       window.history.replaceState(null, '', `/${window.location.search}`);
-      handleRouteChange();
     }
 
-    return () => window.removeEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('graduation-card-opened', handleCardOpened);
   }, []);
-
-  const isDetailsPage = location.pathname === '/details';
 
   return (
     <div className="min-h-screen bg-[#ECE9E2] text-slate-800 flex flex-col relative justify-center">
@@ -42,16 +31,14 @@ export default function App() {
 
       {/* MAIN DYNAMIC CONTENT COMPONENT SECTIONS */}
       <main className="flex-1 flex flex-col justify-center">
-        {isDetailsPage ? (
-          <InvitationCard view="details" />
-        ) : (
-          <div className="flex flex-col items-center gap-8 w-full pb-10 md:pb-14">
-            <InvitationCard view="cover" />
+        <div className="flex flex-col items-center gap-8 w-full pb-10 md:pb-14">
+          <InvitationCard view="cover" />
+          {!isCardOpened && (
             <div className="w-full max-w-2xl px-4 md:px-0">
               <Countdown />
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </main>
 
     </div>

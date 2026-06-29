@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Mail, Calendar, MapPin, Clock, Star, BookOpen, Send,
-  Copy, Check, Sparkles, Heart, Share2,
+  Copy, Check, Heart, Share2,
   PenTool, Navigation, CheckSquare
 } from 'lucide-react';
 
@@ -51,7 +51,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
     }
   }, [view]);
 
-  const normalizeGuestParam = (value: string) => value.replace(/\/details\/?$/, '').trim();
+  const normalizeGuestParam = (value: string) => value.trim();
 
   const getGuestParam = () => {
     if (typeof window === 'undefined') return '';
@@ -59,7 +59,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
     return normalizeGuestParam(params.get('guest') || params.get('name') || params.get('to') || '');
   };
 
-  const navigateToDetailsRoute = () => {
+  const syncGuestRoute = () => {
     if (typeof window === 'undefined') return;
 
     const preservedParams = new URLSearchParams(window.location.search);
@@ -70,8 +70,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
     preservedParams.delete('to');
     preservedParams.set('guest', guest);
 
-    window.history.pushState(null, '', `/details?${preservedParams.toString()}`);
-    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.history.replaceState(null, '', `/?${preservedParams.toString()}`);
   };
 
   // Parse query parameters on load to read the dynamic guest name and title prefix
@@ -195,7 +194,9 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
     // Smooth physical envelope flip open timing
     setTimeout(() => {
       setIsOpening(false);
-      navigateToDetailsRoute();
+      setIsOpen(true);
+      generateFlowerPetals();
+      syncGuestRoute();
     }, 1200);
   };
 
@@ -257,7 +258,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
     <div
       id="uet-invitation-section"
       className={`relative px-4 flex flex-col items-center justify-start bg-[#ECE9E2] text-slate-800 overflow-x-hidden ${
-        view === 'details' ? 'py-12 md:py-20 min-h-screen' : 'w-full pt-8 md:pt-12'
+        isOpen ? 'py-12 md:py-20 min-h-screen' : 'w-full pt-8 md:pt-12'
       }`}
     >
 
@@ -414,15 +415,11 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                 transition={isOpening ? { duration: 0.6 } : { repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
               >
                 <div className="absolute -inset-1 rounded-full border-2 border-[#D5AF38]/30 pointer-events-none opacity-80"></div>
-                <div className="w-11.5 h-11.5 rounded-full border border-double border-[#FFF0BD]/50 flex items-center justify-center bg-gradient-to-br from-[#AA7D15] to-[#593F02] shadow-inner">
-                  <svg className="w-7 h-7 text-[#FFF0BD]" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm3.3 12.5a.8.8 0 0 1-.6.3.7.7 0 0 1-.5-.2 5 5 0 0 0-3.4-1.1 5 5 0 0 0-3.4 1.1.7.7 0 1 1-1-1 6.4 6.4 0 0 1 4.4-1.6 6.4 6.4 0 0 1 4.4 1.6.8.8 0 0 1 .1 1z" opacity="0.15" />
-                    <path d="M10 6.5s-.5.5-1 .5H7v1s0 .5.5 1h2a3.5 3.5 0 0 0 .5-2.5zM14 6.5s.5.5 1 .5h2v1s0 .5-.5 1h-2a3.5 3.5 0 0 1-.5-2.5z" />
-                    <path d="M6.5 12a5.5 5.5 0 0 1 5.5-5.5V8a4 4 0 0 0-4 4z" />
-                    <path d="M17.5 12a5.5 5.5 0 0 0-5.5-5.5V8a4 4 0 0 1 4 4z" />
-                  </svg>
+                <div className="w-11.5 h-11.5 rounded-full border border-double border-[#FFF0BD]/50 flex items-center justify-center bg-gradient-to-br from-[#AA7D15] to-[#593F02] shadow-inner relative overflow-hidden">
+                  <span className="font-serif text-2xl font-black text-[#FFF0BD] leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)]">
+                    H
+                  </span>
                 </div>
-                <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-yellow-100 animate-pulse pointer-events-none" />
               </motion.button>
 
               {!isOpening && (
