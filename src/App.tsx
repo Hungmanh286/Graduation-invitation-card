@@ -12,7 +12,10 @@ export default function App() {
   const [isCardOpened, setIsCardOpened] = useState(false);
 
   useEffect(() => {
-    const handleCardOpened = () => setIsCardOpened(true);
+    let hideCountdownTimer: number | undefined;
+    const handleCardOpened = () => {
+      hideCountdownTimer = window.setTimeout(() => setIsCardOpened(true), 420);
+    };
 
     window.addEventListener('graduation-card-opened', handleCardOpened);
 
@@ -20,7 +23,10 @@ export default function App() {
       window.history.replaceState(null, '', `/${window.location.search}`);
     }
 
-    return () => window.removeEventListener('graduation-card-opened', handleCardOpened);
+    return () => {
+      window.removeEventListener('graduation-card-opened', handleCardOpened);
+      window.clearTimeout(hideCountdownTimer);
+    };
   }, []);
 
   return (

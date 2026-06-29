@@ -43,9 +43,11 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
 
   // Flower petals state
   const [petals, setPetals] = useState<any[]>([]);
+  const [showDetailsExtras, setShowDetailsExtras] = useState(view === 'details');
 
   useEffect(() => {
     setIsOpen(view === 'details');
+    setShowDetailsExtras(view === 'details');
     if (view === 'details') {
       generateFlowerPetals();
     }
@@ -135,7 +137,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
       '#FFF0BD', // Shimmering light gold
     ];
 
-    const petalCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 28 : 42;
+    const petalCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 18 : 30;
     const newPetals = Array.from({ length: petalCount }, (_, i) => {
       const size = Math.random() * 16 + 10; // 10px to 26px
       const petalType = Math.floor(Math.random() * 3); // 3 unique SVG paths
@@ -198,7 +200,8 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
       window.dispatchEvent(new CustomEvent('graduation-card-opened'));
 
       window.requestAnimationFrame(() => {
-        setTimeout(generateFlowerPetals, 260);
+        setTimeout(() => setShowDetailsExtras(true), 320);
+        setTimeout(generateFlowerPetals, 620);
       });
     }, 760);
   };
@@ -442,7 +445,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
               initial={{ opacity: 0, scale: 0.98, y: 18 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.18)] p-6 md:p-14 relative text-slate-800 overflow-hidden border border-[#C5A059]/20"
+              className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.18)] p-6 md:p-14 relative text-slate-800 overflow-hidden border border-[#C5A059]/20 will-change-transform"
             >
               {/* Double-Line Elegant notched gold frame (Exactly matching classic invitation paper borders) */}
               <svg className="absolute inset-0 w-full h-full pointer-events-none p-4" viewBox="0 0 400 600" preserveAspectRatio="none">
@@ -609,14 +612,14 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
               </div>
             </motion.div>
 
-            {/* Section B: Interactive Digital Guest Book (Sổ lưu bút lời chúc số) */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-6 md:p-10 relative border border-[#C5A059]/20"
-            >
+            {showDetailsExtras && (
+              /* Section B: Interactive Digital Guest Book (Sổ lưu bút lời chúc số) */
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.08)] p-6 md:p-10 relative border border-[#C5A059]/20"
+              >
               <div className="text-center mb-6">
                 <span className="font-serif text-sm text-[#9A6F12] tracking-[0.22em] uppercase font-black">Sổ Lưu Niệm</span>
                 <h3 className="font-serif text-3xl md:text-[2rem] font-black text-[#001A3A] uppercase tracking-wider mt-1 leading-tight">Lưu Bút Chúc Mừng</h3>
@@ -778,7 +781,8 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                 })}
               </div>
 
-            </motion.div>
+              </motion.div>
+            )}
 
           </div>
         )}
