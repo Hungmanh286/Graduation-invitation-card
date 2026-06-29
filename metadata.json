@@ -1,0 +1,6 @@
+{
+  "name": "Lễ Tốt Nghiệp UET 2026",
+  "description": "Trang thông tin, thiệp mời điện tử và góc kỷ niệm Lễ Tốt nghiệp Trường Đại học Công nghệ - ĐHQG Hà Nội 2026.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
