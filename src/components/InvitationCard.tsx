@@ -135,8 +135,8 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
       '#FFF0BD', // Shimmering light gold
     ];
 
-    // Generate 65 fluttery high-fidelity petals
-    const newPetals = Array.from({ length: 65 }, (_, i) => {
+    const petalCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 28 : 42;
+    const newPetals = Array.from({ length: petalCount }, (_, i) => {
       const size = Math.random() * 16 + 10; // 10px to 26px
       const petalType = Math.floor(Math.random() * 3); // 3 unique SVG paths
       const x = Math.random() * 100; // starting viewport X percentage
@@ -188,16 +188,19 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
 
   const triggerOpenSequence = () => {
     if (isOpen || isOpening) return;
-    window.dispatchEvent(new CustomEvent('graduation-card-opened'));
     setIsOpening(true);
 
     // Smooth physical envelope flip open timing
     setTimeout(() => {
       setIsOpening(false);
       setIsOpen(true);
-      generateFlowerPetals();
       syncGuestRoute();
-    }, 1200);
+      window.dispatchEvent(new CustomEvent('graduation-card-opened'));
+
+      window.requestAnimationFrame(() => {
+        setTimeout(generateFlowerPetals, 260);
+      });
+    }, 760);
   };
 
   // Preset quick greetings to make signing incredibly quick and fun
@@ -321,16 +324,16 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
         </div>
       )}
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {!isOpen ? (
           /* PART 1: PHYSICAL ENVELOPE VIEW (Bìa thư sang trọng gấp kín) */
           <motion.div
             key="envelope-view"
             initial={{ opacity: 0, scale: 0.95, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: -60 }}
-            transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
-            className="w-full max-w-2xl aspect-[1.5/1] bg-gradient-to-br from-[#1b2a47] to-[#101c33] rounded-xl shadow-[0_30px_70px_-15px_rgba(0,0,0,0.65)] relative overflow-hidden border border-[#C5A059]/30 flex flex-col justify-between p-8 z-10"
+            exit={{ opacity: 0, scale: 0.96, y: -18 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-2xl aspect-[1.5/1] bg-gradient-to-br from-[#1b2a47] to-[#101c33] rounded-xl shadow-[0_30px_70px_-15px_rgba(0,0,0,0.65)] relative overflow-hidden border border-[#C5A059]/30 flex flex-col justify-between p-8 z-10 will-change-transform"
           >
             {/* Subtle premium paper fiber texture overlay */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-repeat" style={{ backgroundImage: 'radial-gradient(circle, #fff 10%, transparent 10%)', backgroundSize: '3px 3px' }}></div>
@@ -341,8 +344,8 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                 className="w-full h-full origin-top relative"
                 style={{ perspective: 1000 }}
                 animate={isOpening ? {
-                  rotateX: -180,
-                  transition: { duration: 0.8, ease: "easeInOut" }
+                  rotateX: -178,
+                  transition: { duration: 0.62, ease: [0.22, 1, 0.36, 1] }
                 } : { rotateX: 0 }}
               >
                 {/* SVG Flap with delicate golden border */}
@@ -386,7 +389,7 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
               {/* Ribbons */}
               <motion.div
                 className="absolute top-[36px] left-1/2 -translate-x-1/2 flex gap-1 pointer-events-none"
-                animate={isOpening ? { opacity: 0, y: 20, transition: { duration: 0.4 } } : { opacity: 1 }}
+                animate={isOpening ? { opacity: 0, y: 14, transition: { duration: 0.28 } } : { opacity: 1 }}
               >
                 <div
                   className="w-4.5 h-16 bg-[#13233c] origin-top rotate-[-12deg] rounded-b-sm shadow-md border-r border-black/25"
@@ -406,13 +409,13 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                 disabled={isOpening}
                 className="w-18 h-18 rounded-full bg-gradient-to-b from-[#FFF0BD] via-[#D5AF38] to-[#8A6715] flex items-center justify-center border-[4px] border-[#FFF0BD]/80 shadow-[0_10px_25px_rgba(0,0,0,0.7),inset_0_2px_4px_rgba(255,255,255,0.5)] relative active:scale-95 transition-all cursor-pointer group/seal"
                 animate={isOpening ? {
-                  scale: [1, 1.2, 0],
+                  scale: [1, 1.12, 0.86],
                   opacity: [1, 1, 0],
-                  rotate: [0, 12, -12, 0]
+                  rotate: [0, 8, -6, 0]
                 } : {
                   scale: [1, 1.05, 1],
                 }}
-                transition={isOpening ? { duration: 0.6 } : { repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+                transition={isOpening ? { duration: 0.42 } : { repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
               >
                 <div className="absolute -inset-1 rounded-full border-2 border-[#D5AF38]/30 pointer-events-none opacity-80"></div>
                 <div className="w-11.5 h-11.5 rounded-full border border-double border-[#FFF0BD]/50 flex items-center justify-center bg-gradient-to-br from-[#AA7D15] to-[#593F02] shadow-inner relative overflow-hidden">
@@ -436,9 +439,9 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
             {/* Section A: The Main Premium Gold-Foiled Invitation Card */}
             <motion.div
               key="opened-card"
-              initial={{ opacity: 0, scale: 0.92, y: 50 }}
+              initial={{ opacity: 0, scale: 0.98, y: 18 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ type: 'spring', damping: 24, stiffness: 110 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="w-full bg-[#FCFAF5] rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.18)] p-6 md:p-14 relative text-slate-800 overflow-hidden border border-[#C5A059]/20"
             >
               {/* Double-Line Elegant notched gold frame (Exactly matching classic invitation paper borders) */}
