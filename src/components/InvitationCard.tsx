@@ -554,19 +554,19 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                     <span>Thời gian: <strong className="font-black text-[#001A3A]">07:30</strong>, Chủ Nhật <strong className="font-black text-[#001A3A]">05/07/2026</strong></span>
                   </div>
 
-                  <div className="w-full rounded-lg border border-[#C5A059]/25 bg-white/55 px-4 py-3 shadow-sm">
-                    <div className="flex items-start gap-2.5 text-left">
-                      <MapPin className="w-4.5 h-4.5 text-[#C5A059] shrink-0 mt-0.5" />
-                      <div className="min-w-0 flex-1">
-                        <p className="font-serif text-xs font-bold uppercase tracking-[0.16em] text-[#9A6F12]">Địa điểm</p>
-                        <p className="font-serif text-base font-black text-[#001A3A] leading-snug">Hội trường Nguyễn Văn Đạo</p>
-                        <p className="font-sans text-xs md:text-[13px] font-semibold text-[#334155] leading-relaxed">Đại học Quốc gia Hà Nội, 144 Xuân Thủy, Cầu Giấy</p>
+                  <div className="w-full rounded-lg border border-[#C5A059]/25 bg-white/55 px-3 py-3 shadow-sm sm:px-4">
+                    <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-2 text-left sm:gap-2.5">
+                      <MapPin className="w-4 h-4 text-[#C5A059] shrink-0 mt-0.5 sm:w-4.5 sm:h-4.5" />
+                      <div className="min-w-0">
+                        <p className="font-serif text-[11px] font-bold uppercase tracking-[0.12em] text-[#9A6F12] sm:text-xs sm:tracking-[0.16em]">Địa điểm</p>
+                        <p className="font-serif text-[0.93rem] font-black text-[#001A3A] leading-snug break-words sm:text-base">Hội trường Nguyễn Văn Đạo</p>
+                        <p className="font-sans text-[11px] font-semibold text-[#334155] leading-relaxed break-words sm:text-xs md:text-[13px]">Đại học Quốc gia Hà Nội, 144 Xuân Thủy, Cầu Giấy</p>
                       </div>
                       <a
                         href="https://www.google.com/maps/search/?api=1&query=H%E1%BB%99i+tr%C6%B0%E1%BB%9Dng+Nguy%E1%BB%85n+V%C4%83n+%C4%90%E1%BA%A1o+144+Xu%C3%A2n+Th%E1%BB%A7y"
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#002147] text-[#C5A059] shadow-sm transition-colors hover:bg-[#01142B]"
+                        className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#002147] text-[#C5A059] shadow-sm transition-colors hover:bg-[#01142B] sm:h-8 sm:w-8"
                         title="Mở Google Maps"
                       >
                         <Navigation className="w-3.5 h-3.5" />
