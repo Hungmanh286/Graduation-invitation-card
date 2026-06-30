@@ -368,18 +368,24 @@ export default function InvitationCard({ view = 'details' }: InvitationCardProps
                   </defs>
                 </svg>
 
-                <div className="absolute inset-x-0 top-[17%] z-10 flex flex-col items-center text-center pointer-events-none px-8">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="h-px w-10 bg-gradient-to-r from-transparent to-[#C5A059]/80"></span>
+                <div className="absolute inset-x-0 top-[13%] sm:top-[17%] z-10 flex flex-col items-center text-center pointer-events-none px-3 sm:px-8">
+                  <div className="flex w-[min(72%,18rem)] items-center justify-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
+                    <span className="h-px min-w-6 flex-1 bg-gradient-to-r from-transparent to-[#C5A059]/80"></span>
                     <span className="font-serif text-[10px] md:text-xs font-bold uppercase tracking-[0.28em] text-[#D8B862] drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]">
                       Thiệp mời
                     </span>
-                    <span className="h-px w-10 bg-gradient-to-l from-transparent to-[#C5A059]/80"></span>
+                    <span className="h-px min-w-6 flex-1 bg-gradient-to-l from-transparent to-[#C5A059]/80"></span>
                   </div>
-                  <span className="font-serif text-lg md:text-[1.55rem] font-black uppercase tracking-[0.12em] text-[#FFF0BD] drop-shadow-[0_3px_8px_rgba(0,0,0,0.65)] leading-tight">
+                  <span
+                    className="max-w-[min(72%,26rem)] font-serif font-black uppercase text-[#FFF0BD] drop-shadow-[0_3px_8px_rgba(0,0,0,0.65)] leading-[1.12] whitespace-normal text-balance"
+                    style={{
+                      fontSize: 'clamp(0.92rem, 4.2vw, 1.55rem)',
+                      letterSpacing: 'clamp(0.035em, 0.75vw, 0.12em)',
+                    }}
+                  >
                     Trân trọng kính mời
                   </span>
-                  <span className="mt-3 h-[1.5px] w-16 bg-[#C5A059]/75"></span>
+                  <span className="mt-2 sm:mt-3 h-[1.5px] w-12 sm:w-16 bg-[#C5A059]/75"></span>
                 </div>
               </motion.div>
             </div>
